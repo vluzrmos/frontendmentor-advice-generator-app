@@ -55,17 +55,19 @@ function startAdiviceGame(card) {
 
   const dice = card.querySelector(".card__dice");
 
+  const cardBindAdvice = (advice) => bindAdvice(card, advice);
+  
+  const enableDice = () =>
+    setTimeout(() => {
+      dice.disabled = false;
+    }, 500);
+
   dice.addEventListener("click", (e) => {
     e.preventDefault();
 
     dice.disabled = true;
 
-    fetchLocalAdvice()
-      .then((advice) => bindAdvice(card, advice))
-      .then(() => (dice.disabled = false))
-      .catch(() => {
-        dice.disabled = false;
-      });
+    fetchLocalAdvice().then(cardBindAdvice).then(enableDice).catch(enableDice);
   });
 }
 
