@@ -1,25 +1,71 @@
+let currentAdvice = {};
+const advicesCache = new Map();
+const advicesBanned = [146];
+
+advicesCache.set(71, {
+  id: 71,
+  advice:
+    "It is easy to sit up and take notice, what's difficult is getting up and taking action.",
+});
+
 async function bindAdvice(card, advice) {
+  currentAdvice = advice;
   card.querySelector(".card__title").innerHTML = `ADVICE #${advice.id}`;
   card.querySelector(".card__body").innerHTML = advice.advice;
 }
 
-async function fetchRandomAdvice() {
-  const response = await fetch("https://api.adviceslip.com/advice");
+async function fetchAllRandomAdvices() {
+  const time = new Date().getTime();
+
+  const response = await fetch(
+    `https://api.adviceslip.com/advice/search/e?__t=${time}`
+  );
+
   const data = await response.json();
 
-  return data.slip;
+  data.slips.forEach(function (item) {
+    if (advicesBanned.indexOf(item.id) >= 0) {
+      return;
+    }
+
+    advicesCache.set(item.id, item);
+  });
+}
+
+function fetchLocalAdvice() {
+  return new Promise((resolve, reject) => {
+    const keys = [...advicesCache.keys()];
+
+    if (keys.length === 0) {
+      return reject();
+    }
+
+    const index = Math.floor(Math.random() * keys.length);
+
+    const key = keys[index];
+
+    return resolve(advicesCache.get(key));
+  });
 }
 
 function startAdiviceGame(card) {
-  bindAdvice(card, {
-    "id": 71,
-    "advice": "It is easy to sit up and take notice, what's difficult is getting up and taking action."
-  })
+  fetchAllRandomAdvices();
 
-  card.querySelector('.card__dice').addEventListener('click', (e) => {
+  fetchLocalAdvice().then((advice) => bindAdvice(card, advice));
+
+  const dice = card.querySelector(".card__dice");
+
+  dice.addEventListener("click", (e) => {
     e.preventDefault();
 
-    (async () =>  bindAdvice(card, await fetchRandomAdvice()))();
+    dice.disabled = true;
+
+    fetchLocalAdvice()
+      .then((advice) => bindAdvice(card, advice))
+      .then(() => (dice.disabled = false))
+      .catch(() => {
+        dice.disabled = false;
+      });
   });
 }
 

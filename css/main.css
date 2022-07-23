@@ -11,6 +11,9 @@
 *::before {
   font-family: 'Manrope', sans-serif;
   font-size: 28px;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 button {
@@ -26,6 +29,7 @@ body {
   align-items: center;
   justify-content: center;
   padding-inline: .5rem;
+  width: 100%;
 }
 
 .desktop {
@@ -70,12 +74,14 @@ body {
   font-size: 0.40rem;
   padding: 0;
   margin: 0;
+  letter-spacing: 0.1rem;
 }
 
 .card__body {
   text-align: center;
   color: var(--light-cyan);
   quotes: "“" "”" "‘" "’";
+  min-height: 100px;
 }
 
 .card__body::before {
@@ -104,6 +110,7 @@ body {
   transition: box-shadow 250ms ease-in;
 }
 
+
 .card__dice__icon{
   pointer-events: none;
 }
@@ -116,6 +123,22 @@ body {
  {
   overflow: hidden;
   box-shadow: 0 0 0.75rem var(--neon-green);
+}
+
+.card__dice:disabled{
+  background-color: var(--light-cyan);
+  box-shadow: none;
+}
+
+.card__dice:disabled .card__dice__icon {
+  opacity: 0.5;
+  animation: spin 3s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotateZ(720deg);
+  }
 }
 
 .attribution {
