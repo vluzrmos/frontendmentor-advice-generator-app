@@ -1,0 +1,135 @@
+:root {
+  --light-cyan: hsl(193, 38%, 86%);
+  --neon-green: hsl(150, 100%, 66%);
+  --grayish-blue: hsl(217, 19%, 38%);
+  --dark-grayish-blue: hsl(217, 19%, 24%);
+  --dark-blue: hsl(218, 23%, 16%);
+}
+
+*,
+*::after,
+*::before {
+  font-family: 'Manrope', sans-serif;
+  font-size: 28px;
+}
+
+button {
+  cursor: pointer;
+}
+
+body {
+  position: relative;
+  height: 100vh;
+  background-color: var(--dark-blue);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-inline: .5rem;
+}
+
+.desktop {
+  display: none !important;
+}
+
+.mobile {
+  display: block !important;
+}
+
+@media (min-width: 600px) {
+  .mobile {
+    display: none !important;
+  }
+
+  .desktop {
+    display: block !important;
+  }
+
+  .card {
+    width: 500px !important;
+  }
+}
+
+.card {
+  background-color: var(--dark-grayish-blue);
+  width: 100%;
+  padding-inline: 1.25rem ;
+  padding-block-start: 1.25rem;
+  padding-block-end: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  position: relative;
+}
+
+.card__title {
+  color: var(--neon-green);
+  font-size: 0.40rem;
+}
+
+.card__body {
+  text-align: center;
+  color: var(--light-cyan);
+  quotes: "“" "”" "‘" "’";
+}
+
+.card__body::before {
+  content: open-quote;
+}
+.card__body::after {
+  content: close-quote;
+}
+
+.card__divider {
+  width: 100%;
+  display: block;
+}
+
+.card__dice {
+  position: absolute;
+  bottom: 0rem;
+  transform: translateY(50%);
+  padding: .35rem;
+  border: none;
+  outline: none;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  background-color: var(--neon-green);
+  transition: box-shadow 250ms ease-in;
+}
+
+.card__dice__icon{
+  pointer-events: none;
+}
+
+.card__dice:hover,
+.card__dice:focus,
+.card__dice:active,
+.card__dice:focus:active,
+.card__dice.active
+ {
+  overflow: hidden;
+  box-shadow: 0 0 0.75rem var(--neon-green);
+}
+
+.attribution {
+  position: -webkit-sticky;
+  position: sticky;
+  width: 100%;
+  top: 100%;
+  bottom: 0;
+  text-align: center;
+  color: var(--grayish-blue);
+  font-size: 0.5rem;
+}
+
+.attribution *
+{
+  font-size: 0.5rem;
+  color: var(--grayish-blue);
+}
+
