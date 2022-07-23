@@ -51,12 +51,12 @@ function fetchLocalAdvice() {
 function startAdiviceGame(card) {
   fetchAllRandomAdvices();
 
-  fetchLocalAdvice().then((advice) => bindAdvice(card, advice));
+  const cardBindAdvice = (advice) => bindAdvice(card, advice);
+
+  fetchLocalAdvice().then(cardBindAdvice);
 
   const dice = card.querySelector(".card__dice");
 
-  const cardBindAdvice = (advice) => bindAdvice(card, advice);
-  
   const enableDice = () =>
     setTimeout(() => {
       dice.disabled = false;
